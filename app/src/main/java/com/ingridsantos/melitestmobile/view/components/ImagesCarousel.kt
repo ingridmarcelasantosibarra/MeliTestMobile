@@ -1,4 +1,4 @@
-package com.ingridsantos.melitestmobile.view
+package com.ingridsantos.melitestmobile.view.components
 
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Box
@@ -17,11 +17,12 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
+import com.ingridsantos.melitestmobile.view.DotsIndicator
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun AutoSlidingCarousel(
+fun ImagesCarousel(
     modifier: Modifier = Modifier,
     autoSlideDuration: Long = 100L,
     pagerState: PagerState = remember { PagerState() },
@@ -32,7 +33,6 @@ fun AutoSlidingCarousel(
 
     LaunchedEffect(pagerState.currentPage) {
         delay(autoSlideDuration)
-        //   pagerState.animateScrollToPage((pagerState.currentPage + 1) % itemsCount)
     }
 
     Box(

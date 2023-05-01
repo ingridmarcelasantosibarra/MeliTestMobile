@@ -1,9 +1,8 @@
-package com.ingridsantos.melitestmobile.view
+package com.ingridsantos.melitestmobile.view.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +19,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,7 +27,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -47,7 +44,6 @@ fun SearchBarUI(
     placeholderText: String = "",
     onSearchTextChanged: (String) -> Unit = {},
     onClearClick: () -> Unit = {},
-    onNavigateBack: () -> Unit = {},
     results: @Composable () -> Unit = {}
 ) {
     Box {
@@ -59,15 +55,9 @@ fun SearchBarUI(
                 searchText,
                 placeholderText,
                 onSearchTextChanged,
-                onClearClick,
-                onNavigateBack
+                onClearClick
             )
-
-            //  if (matchesFound) {
             results()
-       /*     } else {
-                NoSearchResults("No matches found", color = Color.Black)
-            }*/
         }
     }
 }
@@ -78,89 +68,68 @@ fun SearchBar(
     searchText: String,
     placeholderText: String = "",
     onSearchTextChanged: (String) -> Unit = {},
-    onClearClick: () -> Unit = {},
-    onNavigateBack: () -> Unit = {}
+    onClearClick: () -> Unit = {}
 ) {
     var showClearButton by rememberSaveable { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
     var isFocused by rememberSaveable { mutableStateOf(false) }
-    val wasFocused = remember{ isFocused }
 
     LaunchedEffect(true) {
-        if (isFocused.not()) {
+        if (isFocused) {
             focusRequester.requestFocus()
         }
     }
 
-    TopAppBar(title = { Text("") }, navigationIcon = {
-        IconButton(onClick = { onNavigateBack() }) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBack,
-                modifier = Modifier,
-                contentDescription = "volver"
-            )
-        }
-    }, actions = {
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 2.dp)
-                    .onFocusChanged { focusState ->
-                        showClearButton = (focusState.isFocused)
-                        isFocused = focusState.isFocused
+    TopAppBar(title = { Text("") }, actions = {
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 2.dp)
+                .onFocusChanged { focusState ->
+                    showClearButton = (focusState.isFocused)
+                    isFocused = focusState.isFocused
+                }
+                .focusRequester(focusRequester),
+            value = searchText,
+            onValueChange = {
+                onSearchTextChanged(it)
+            },
+            placeholder = {
+                Text(text = placeholderText, color = Color.White)
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                backgroundColor = Color.Transparent,
+                cursorColor = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+                textColor = Color.White
+            ),
+            trailingIcon = {
+                AnimatedVisibility(
+                    visible = showClearButton,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    IconButton(onClick = { onClearClick() }) {
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = "limpiar busqueda",
+                            tint = Color.White
+                        )
                     }
-                    .focusRequester(focusRequester),
-                value = searchText,
-                onValueChange = {
-                    onSearchTextChanged(it)
-                },
-                placeholder = {
-                    Text(text = placeholderText, color = Color.White)
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    backgroundColor = Color.Transparent,
-                    cursorColor = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
-                    textColor = Color.White
-                ),
-                trailingIcon = {
-                    AnimatedVisibility(
-                        visible = showClearButton,
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
-                        IconButton(onClick = { onClearClick() }) {
-                            Icon(
-                                imageVector = Icons.Filled.Close,
-                                contentDescription = "limpiar busqueda",
-                                tint = Color.White
-                            )
-                        }
-                    }
-                },
-                maxLines = 1,
-                singleLine = true,
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = {
-                    keyboardController?.hide()
-                })
-            )
-        })
+                }
+            },
+            maxLines = 1,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide()
+            })
+        )
+    })
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
-    }
-}
-
-@Composable
-fun NoSearchResults(message: String, color: Color) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = CenterHorizontally
-    ) {
-        Text(message, color = color)
     }
 }

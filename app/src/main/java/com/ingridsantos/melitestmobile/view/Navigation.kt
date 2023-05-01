@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.ingridsantos.melitestmobile.view.productdetail.ProductDetailUI
 import com.ingridsantos.melitestmobile.view.productsearch.ProductSearchUI
 
 enum class NavPath(
@@ -19,9 +20,11 @@ enum class NavPath(
 fun Navigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = NavPath.ProductSearch.route) {
         composable(NavPath.ProductSearch.route) {
-            ProductSearchUI(navController = navController, onClick = { product ->
-                navController.navigate(route = "${NavPath.ProductDetail.route}/${product.id}")
-            })
+            ProductSearchUI(
+                onClick = { product ->
+                    navController.navigate(route = "${NavPath.ProductDetail.route}/${product.id}")
+                }
+            )
         }
 
         composable(
@@ -33,7 +36,9 @@ fun Navigation(navController: NavHostController) {
             )
         ) {
             it.arguments?.getString("productId")?.let { id ->
-                ProductDetailUI(product = id)
+                ProductDetailUI(product = id) {
+                    navController.popBackStack()
+                }
             }
         }
     }
