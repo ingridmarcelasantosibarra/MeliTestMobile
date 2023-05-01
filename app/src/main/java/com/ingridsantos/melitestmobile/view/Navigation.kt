@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.ingridsantos.melitestmobile.view.productsearch.ProductSearchUI
 
 enum class NavPath(
     val route: String

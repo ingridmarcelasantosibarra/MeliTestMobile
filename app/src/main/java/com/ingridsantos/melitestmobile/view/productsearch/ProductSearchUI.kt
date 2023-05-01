@@ -1,4 +1,4 @@
-package com.ingridsantos.melitestmobile.view
+package com.ingridsantos.melitestmobile.view.productsearch
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -30,7 +30,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ingridsantos.melitestmobile.domain.entities.Product
-import com.ingridsantos.melitestmobile.view.viewmodel.SearchProductViewModel
+import com.ingridsantos.melitestmobile.view.NoSearchResults
+import com.ingridsantos.melitestmobile.view.SearchBarUI
 
 @Composable
 fun ProductSearchUI(
@@ -42,7 +43,7 @@ fun ProductSearchUI(
     var searchText by rememberSaveable { mutableStateOf("") }
     SearchBarUI(
         searchText = searchText,
-        placeholderText = "Search users",
+        placeholderText = "Search product",
         onSearchTextChanged = {
             searchText = it
             viewModel.getProducts(it)

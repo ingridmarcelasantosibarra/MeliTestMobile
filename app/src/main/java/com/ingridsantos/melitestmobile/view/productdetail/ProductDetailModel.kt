@@ -1,4 +1,4 @@
-package com.ingridsantos.melitestmobile.view.model
+package com.ingridsantos.melitestmobile.view.productdetail
 
 import com.ingridsantos.melitestmobile.domain.entities.Product
 

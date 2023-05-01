@@ -3,8 +3,8 @@ package com.ingridsantos.melitestmobile.injection.service
 import com.ingridsantos.melitestmobile.domain.exceptions.ExceptionHandler
 import com.ingridsantos.melitestmobile.domain.usecases.DetailProductUC
 import com.ingridsantos.melitestmobile.domain.usecases.SearchProductUC
-import com.ingridsantos.melitestmobile.view.viewmodel.DetailProductViewModel
-import com.ingridsantos.melitestmobile.view.viewmodel.SearchProductViewModel
+import com.ingridsantos.melitestmobile.view.productdetail.DetailProductViewModel
+import com.ingridsantos.melitestmobile.view.productsearch.SearchProductViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

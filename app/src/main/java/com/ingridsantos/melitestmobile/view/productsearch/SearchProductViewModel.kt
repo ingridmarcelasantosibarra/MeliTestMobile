@@ -1,11 +1,10 @@
-package com.ingridsantos.melitestmobile.view.viewmodel
+package com.ingridsantos.melitestmobile.view.productsearch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ingridsantos.melitestmobile.domain.entities.fold
 import com.ingridsantos.melitestmobile.domain.exceptions.ExceptionHandler
 import com.ingridsantos.melitestmobile.domain.usecases.SearchProductUC
-import com.ingridsantos.melitestmobile.view.model.ProductsModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -34,7 +34,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.ingridsantos.melitestmobile.R
-import com.ingridsantos.melitestmobile.view.viewmodel.DetailProductViewModel
+import com.ingridsantos.melitestmobile.view.productdetail.DetailProductViewModel
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable

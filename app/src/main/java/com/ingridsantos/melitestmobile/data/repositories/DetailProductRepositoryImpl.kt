@@ -15,7 +15,7 @@ class DetailProductRepositoryImpl @Inject constructor(
 ) : DetailProductRepository {
 
     override fun getProductDetail(id: String) = flow<Result<Product>> {
-        val products = detailProductApi.getProducts(id)
+        val products = detailProductApi.getProductDetail(id)
         emit(
             Result.Success(
                 products.first().body.toProduct()
